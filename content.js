@@ -13,32 +13,38 @@ function start() {
 
 function addAverageToPage() {
     let subjects = document.getElementsByClassName("student-subject-item");
+    let marksCounterLastDiv;
 
-    if(subjects[subjects.length-1].getElementsByClassName("student-name ng-binding")[0].innerHTML !== "Notendurchschnitt"){
+    if (
+        subjects[subjects.length - 1].getElementsByClassName(
+            "student-name ng-binding"
+        )[0].innerHTML !== "Notendurchschnitt"
+    ) {
         let counter = 0;
         let sumAllMarks = 0;
         for (let i = 0; i < subjects.length; i++) {
             let marks = subjects[i].getElementsByClassName(
                 "grade with-tooltip ng-binding"
             );
-    
+
+            if (i == subjects.length - 1) marksCounterLastDiv = marks.length;
+
             let sum = 0;
             let sumDivide = 0;
             for (let j = 0; j < marks.length; j++) {
                 let percentage = getPercentege(marks[j].title);
                 let mark = getMarkValue(marks[j].innerHTML);
-    
+
                 sum += (mark * percentage) / 100;
                 sumDivide += percentage / 100;
-    
             }
-    
+
             if (marks.length > 0 && sumDivide > 0) {
                 const average = sum / sumDivide;
                 let averageFixedLength = average;
                 if (average.toString().length > 5)
                     averageFixedLength = averageFixedLength.toFixed(3);
-    
+
                 let valueLeft = subjects[i].getElementsByClassName(
                     "absences ng-binding"
                 )[0];
@@ -46,22 +52,20 @@ function addAverageToPage() {
                 valueLeft.title = "Notendurchschnitt";
                 valueLeft.setAttribute("popover-trigger", "none");
                 valueLeft.setAttribute("uib-popover", "Anzahl Fehlstunden");
-    
+
                 valueLeft.style.color = "limegreen";
                 valueLeft.style.fontWeight = "bold";
-    
+
                 sumAllMarks += average;
                 counter++;
-                
             }
         }
-        if(subjects.length > 0){
+        if (subjects.length > 0) {
             let averageMarks = sumAllMarks / counter;
-            addAverageAllSubjects(averageMarks);
+            addAverageAllSubjects(averageMarks, marksCounterLastDiv);
         }
-    }    
+    }
 }
-
 
 setInterval(start, 500);
 
@@ -83,7 +87,7 @@ function getMarkValue(mark) {
     return number;
 }
 
-function addAverageAllSubjects(average){
+function addAverageAllSubjects(average, marksCounterLastDiv) {
     let div = document.createElement("div");
     div.className = "student-subject-item";
 
@@ -98,7 +102,6 @@ function addAverageAllSubjects(average){
     let span = document.createElement("span");
     span.className = "grades";
 
-
     let spanMark = document.createElement("span");
     spanMark.className = "grade with-tooltip ng-binding";
     spanMark.innerHTML = average;
@@ -112,7 +115,9 @@ function addAverageAllSubjects(average){
 
     div.style.backgroundColor = "#d2fff0";
     div.style.fontWeight = "bold";
-    div.style.color = "#f23e02"
+    div.style.color = "#f23e02";
 
-    parent[parent.length-2].appendChild(div);
+    parent[parent.length - 1 - marksCounterLastDiv].appendChild(div);
+
+    parent = document.getElementsByClassName("ng-scope ng-isolate-scope");
 }
