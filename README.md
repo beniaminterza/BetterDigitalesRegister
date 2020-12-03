@@ -1,6 +1,6 @@
 # What is it?
 
-It's a Chrome extension that allows you to see the average of the marks in the Digitales Register.
+It's a Chrome extension that allows you to see the average of the marks on the Digitales Register.
 
 # Installation
 
