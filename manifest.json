@@ -5,7 +5,10 @@
 
     "content_scripts": [
         {
-            "matches": ["https://fallmerayer.digitalesregister.it/v2/"],
+            "matches": [
+                "https://fallmerayer.digitalesregister.it/v2/",
+                "https://fallmerayer.digitalesregister.it/v2/?semesterWechsel=1"
+            ],
             "js": ["content.js"],
             "run_at": "document_end"
         }

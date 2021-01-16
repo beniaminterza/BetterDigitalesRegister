@@ -52,8 +52,11 @@ function addAverageToPage() {
                 valueLeft.title = "Notendurchschnitt";
                 valueLeft.setAttribute("popover-trigger", "none");
                 valueLeft.setAttribute("uib-popover", "Anzahl Fehlstunden");
-
-                valueLeft.style.color = "limegreen";
+                if (averageFixedLength < 6.5) {
+                    valueLeft.style.color = "red";
+                } else {
+                    valueLeft.style.color = "limegreen";
+                }
                 valueLeft.style.fontWeight = "bold";
 
                 sumAllMarks += average;
