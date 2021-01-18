@@ -69,8 +69,9 @@ function addAverageToPage() {
                 notenFächer.push(average);
                 averageNotenFächer.push(sumAllMarks / counter);
                 fächer.push(
-                    subjects[i].getElementsByClassName("student-name ng-binding")[0]
-                        .innerHTML
+                    subjects[i].getElementsByClassName(
+                        "student-name ng-binding"
+                    )[0].innerHTML
                 );
             }
         }
@@ -153,8 +154,6 @@ function addChart(marksCounterLastDiv) {
 }
 
 function addChartValues() {
-    console.log(averageNotenFächer);
-
     let ctx = document.getElementById("myChart").getContext("2d");
 
     let chart = new Chart(myChart, {
