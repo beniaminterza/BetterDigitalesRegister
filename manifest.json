@@ -7,9 +7,10 @@
         {
             "matches": [
                 "https://fallmerayer.digitalesregister.it/v2/",
-                "https://fallmerayer.digitalesregister.it/v2/?semesterWechsel=1"
+                "https://fallmerayer.digitalesregister.it/v2/?semesterWechsel=1",
+                "https://fallmerayer.digitalesregister.it/v2/?semesterWechsel=2"
             ],
-            "js": ["content.js"],
+            "js": ["content.js", "chart.js"],
             "run_at": "document_end"
         }
     ],

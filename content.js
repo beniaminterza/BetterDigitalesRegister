@@ -1,4 +1,7 @@
 let boolean = true;
+let fächer = [];
+let notenFächer = [];
+let averageNotenFächer = [];
 
 function start() {
     let url = window.location.href.toString();
@@ -52,7 +55,7 @@ function addAverageToPage() {
                 valueLeft.title = "Notendurchschnitt";
                 valueLeft.setAttribute("popover-trigger", "none");
                 valueLeft.setAttribute("uib-popover", "Anzahl Fehlstunden");
-                if (averageFixedLength < 6.5) {
+                if (averageFixedLength < 5.5) {
                     valueLeft.style.color = "red";
                 } else {
                     valueLeft.style.color = "limegreen";
@@ -60,7 +63,15 @@ function addAverageToPage() {
                 valueLeft.style.fontWeight = "bold";
 
                 sumAllMarks += average;
-                counter++;
+                counter += 1;
+
+                //pushing data in the arrays for the chart
+                notenFächer.push(average);
+                averageNotenFächer.push(sumAllMarks / counter);
+                fächer.push(
+                    subjects[i].getElementsByClassName("student-name ng-binding")[0]
+                        .innerHTML
+                );
             }
         }
         if (subjects.length > 0) {
@@ -121,6 +132,65 @@ function addAverageAllSubjects(average, marksCounterLastDiv) {
     div.style.color = "#f23e02";
 
     parent[parent.length - 1 - marksCounterLastDiv].appendChild(div);
+    addChart(marksCounterLastDiv);
+}
 
-    parent = document.getElementsByClassName("ng-scope ng-isolate-scope");
+function addChart(marksCounterLastDiv) {
+    let parent = document.getElementById("maincontent");
+
+    let chartjs = document.createElement("script");
+    chartjs.setAttribute("src", "https://cdn.jsdelivr.net/npm/chart.js@2.8.0");
+    parent.appendChild(chartjs); //adding the script to the header
+
+    let chart = document.createElement("canvas");
+    chart.id = "myChart";
+    chart.style.width = "400";
+    chart.style.height = "400";
+
+    parent.appendChild(chart);
+
+    addChartValues();
+}
+
+function addChartValues() {
+    console.log(averageNotenFächer);
+
+    let ctx = document.getElementById("myChart").getContext("2d");
+
+    let chart = new Chart(myChart, {
+        type: "bar",
+        data: {
+            labels: fächer,
+            datasets: [
+                {
+                    label: "Durchschnitt der vorherigen Noten",
+                    data: averageNotenFächer,
+
+                    // Changes this dataset to become a line
+                    type: "line",
+                    fill: false,
+                    borderColor: "#ff7dc2",
+                },
+                {
+                    label: "Noten",
+                    data: notenFächer,
+                    backgroundColor: [
+                        "#ffbdbd",
+                        "#ffd3bd",
+                        "#ffe2bd",
+                        "#fff4bd",
+                        "#f6ffbd",
+                        "#deffbd",
+                        "#c7ffbd",
+                        "#bdffc5",
+                        "#bdffe1",
+                        "#bdfffd",
+                        "#bde2ff",
+                        "#bdcfff",
+                        "#c0bdff",
+                    ],
+                },
+            ],
+        },
+    });
 }
